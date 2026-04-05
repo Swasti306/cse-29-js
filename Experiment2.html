@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Salary Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+        }
+
+        input {
+            margin: 5px;
+            padding: 5px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+        }
+
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Employee Salary Management System</h2>
+
+    <input type="text" id="name" placeholder="Employee Name">
+    <input type="number" id="id" placeholder="Employee ID">
+    <input type="number" id="salary" placeholder="Salary">
+    <input type="text" id="dept" placeholder="Department">
+
+    <br>
+
+    <button onclick="addEmployee()">Add Employee</button>
+    <button onclick="displayEmployees()">Display All</button>
+    <button onclick="filterSalary()">Salary > 50000</button>
+    <button onclick="totalSalary()">Total Salary</button>
+    <button onclick="averageSalary()">Average Salary</button>
+    <button onclick="countDept()">Count by Dept</button>
+
+    <div id="output"></div>
+
+    <script>
+        let employees = [];
+
+        function addEmployee() {
+            let name = document.getElementById("name").value;
+            let id = document.getElementById("id").value;
+            let salary = parseFloat(document.getElementById("salary").value);
+            let dept = document.getElementById("dept").value;
+
+            let emp = {
+                name: name,
+                id: id,
+                salary: salary,
+                dept: dept
+            };
+
+            employees.push(emp);
+            alert("Employee Added!");
+        }
+
+        function displayEmployees() {
+            let result = "<h3>All Employees</h3>";
+
+            employees.forEach(e => {
+                result += `Name: ${e.name}, ID: ${e.id}, Salary: ₹${e.salary}, Dept: ${e.dept} <br>`;
+            });
+
+            document.getElementById("output").innerHTML = result;
+        }
+
+        function filterSalary() {
+            let result = "<h3>Salary > 50000</h3>";
+
+            let filtered = employees.filter(e => e.salary > 50000);
+
+            filtered.forEach(e => {
+                result += `Name: ${e.name}, Salary: ₹${e.salary} <br>`;
+            });
+
+            document.getElementById("output").innerHTML = result;
+        }
+
+        function totalSalary() {
+            let total = employees.reduce((sum, e) => sum + e.salary, 0);
+
+            document.getElementById("output").innerHTML =
+                "<h3>Total Salary: ₹" + total + "</h3>";
+        }
+
+        function averageSalary() {
+            let total = employees.reduce((sum, e) => sum + e.salary, 0);
+            let avg = total / employees.length || 0;
+
+            document.getElementById("output").innerHTML =
+                "<h3>Average Salary: ₹" + avg.toFixed(2) + "</h3>";
+        }
+
+        function countDept() {
+            let deptCount = {};
+
+            employees.forEach(e => {
+                deptCount[e.dept] = (deptCount[e.dept] || 0) + 1;
+            });
+
+            let result = "<h3>Department Count</h3>";
+
+            for (let dept in deptCount) {
+                result += dept + ": " + deptCount[dept] + "<br>";
+            }
+
+            document.getElementById("output").innerHTML = result;
+        }
+    </script>
+
+</body>
+</html>
